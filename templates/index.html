@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CodeSphere Lite</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark">CS</div>
+    <div class="brand-text"><strong>CodeSphere <span>Lite</span></strong><small>Your Python practice workspace</small></div>
+    <div class="local-pill"><i></i> Local workspace</div>
+  </header>
+
+  <main class="layout">
+    <section class="welcome">
+      <p class="eyebrow">DEVELOPER WORKSPACE</p>
+      <h1>Think it. <span>Code it.</span> Run it.</h1>
+      <p class="subhead">Write Python, inspect errors, test expected output, and revisit your recent runs.</p>
+    </section>
+
+    <section class="workspace">
+      <div class="panel editor-panel">
+        <div class="panel-head">
+          <div><span class="dot"></span><span class="dot yellow"></span><span class="dot green"></span> <b>main.py</b></div>
+          <span class="language-tag">PYTHON 3</span>
+        </div>
+        <textarea id="code" spellcheck="false" aria-label="Python code">name = "CodeSphere"
+print("Hello from", name)
+
+for number in range(1, 4):
+    print("Practice run", number)</textarea>
+        <div class="editor-footer">
+          <span>Tip: press Run to execute your Python code.</span>
+          <button id="runBtn" class="primary-btn">▶ Run code</button>
+        </div>
+      </div>
+
+      <div class="panel output-panel">
+        <div class="panel-head"><b>Output console</b><span id="status" class="status">Ready</span></div>
+        <pre id="output" class="output">Your program output will appear here.</pre>
+        <div id="explanation" class="explanation hidden"></div>
+      </div>
+    </section>
+
+    <section class="tools-grid">
+      <div class="panel tool-panel">
+        <div class="tool-title"><span class="tool-icon">✓</span><div><h2>Test Lab</h2><p>Compare actual output with what you expect.</p></div></div>
+        <label for="testInput">Program input (optional)</label>
+        <input id="testInput" placeholder="Input passed to input()">
+        <label for="expected">Expected output</label>
+        <input id="expected" placeholder="Type expected output">
+        <button id="testBtn" class="secondary-btn">Run output test</button>
+        <p id="testResult" class="test-result">Your test result will appear here.</p>
+      </div>
+
+      <div class="panel tool-panel history-panel">
+        <div class="history-heading"><div><h2>Recent runs</h2><p>Your latest local code runs.</p></div><button id="clearBtn" class="text-btn">Clear history</button></div>
+        {% if history %}
+          <div id="historyList" class="history-list">
+          {% for item in history %}
+            <div class="history-item">
+              <div><span class="history-status {{ 'success' if item.status == 'Success' else 'failure' }}"></span><b>{{ item.status }}</b><small>{{ item.created_at }}</small></div>
+              <pre>{{ item.code[:110] }}{% if item.code|length > 110 %}…{% endif %}</pre>
+            </div>
+          {% endfor %}
+          </div>
+        {% else %}
+          <div id="historyList" class="empty-state">No runs yet. Run your first Python program!</div>
+        {% endif %}
+      </div>
+    </section>
+    <footer>CodeSphere Lite · Built for learning · Runs locally on your computer</footer>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
